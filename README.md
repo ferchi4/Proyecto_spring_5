@@ -1,65 +1,84 @@
-# Análisis de Rentabilidad: Planes de Prepago Megaline
+# Profitability Analysis: Megaline Prepaid Plans
 
-Este proyecto analiza el comportamiento de los clientes de los planes de prepago "Surf" y "Ultimate" de la empresa de telecomunicaciones Megaline. El objetivo principal es determinar cuál de las dos tarifas genera más ingresos para la empresa y cómo los usuarios utilizan los servicios de llamadas, mensajes e internet. Este análisis servirá para ajustar el presupuesto de publicidad de la compañía.
+This project analyzes the behavior of customers on the "Surf" and "Ultimate" prepaid plans of the telecommunications company Megaline. The main objective is to determine which of the two tariffs generates more revenue for the company and how users utilize call, message, and internet services. This analysis will serve to adjust the company's advertising budget.
 
-## Objetivo
+## Objective
 
-Comparar los dos planes de prepago para determinar cuál genera más ingresos, analizando cómo los clientes consumen los servicios de llamadas, mensajes e internet a lo largo del año.
+To compare the two prepaid plans to determine which generates more revenue by analyzing how customers consume call, message, and internet services throughout the year.
 
-## 🛠️ Tecnologías Utilizadas
+## 🛠️ Technologies Used
 
-*   **Python:** Lenguaje de programación principal.
-*   **Pandas:** Para la manipulación, limpieza y agregación de datos.
-*   **NumPy:** Para operaciones numéricas y cálculos de redondeo.
-*   **Matplotlib / Seaborn:** Para la visualización de datos y la creación de gráficos (histogramas, diagramas de caja, etc.).
-*   **SciPy:** Para la realización de pruebas de hipótesis estadísticas (prueba t de Student).
-*   **Jupyter Notebook:** Entorno interactivo para el desarrollo del análisis.
+*   **Python:** Main programming language.
+*   **Pandas:** For data manipulation, cleaning, and aggregation.
+*   **NumPy:** For numerical operations and rounding calculations.
+*   **Matplotlib / Seaborn:** For data visualization and creation of charts (histograms, box plots, etc.).
+*   **SciPy:** For conducting statistical hypothesis tests (Student's t-test).
+*   **Jupyter Notebook:** Interactive environment for analysis development.
 
 ## Dataset
 
-Se utilizaron cinco archivos CSV que contienen información detallada de 500 clientes de Megaline durante el año 2018:
-*   `megaline_calls.csv`: Información sobre las llamadas (duración, fecha).
-*   `megaline_internet.csv`: Información sobre el consumo de internet (MB usados por sesión).
-*   `megaline_messages.csv`: Información sobre los mensajes de texto enviados.
-*   `megaline_plans.csv`: Descripción de las tarifas de los planes "Surf" y "Ultimate".
-*   `megaline_users.csv`: Datos demográficos de los clientes y el plan que utilizan.
+Five CSV files were used, containing detailed information on 500 Megaline customers during the year 2018:
+*   `megaline_calls.csv`: Information about calls (duration, date).
+*   `megaline_internet.csv`: Information about internet consumption (MB used per session).
+*   `megaline_messages.csv`: Information about text messages sent.
+*   `megaline_plans.csv`: Description of the "Surf" and "Ultimate" plan rates.
+*   `megaline_users.csv`: Demographic data of customers and the plan they use.
 
-## Pasos Clave del Análisis
+## Key Analysis Steps
 
-1.  **Descripción y Preparación de los Datos:**
-    *   Se realizó una exploración inicial de cada DataFrame para evaluar su estructura, tipos de datos y valores ausentes.
-    *   Se corrigieron los nombres de las columnas para mayor consistencia.
-    *   Se manejaron los valores ausentes (`NaN`), rellenándolos según el contexto (ej: `churn_date` con 'active').
-    *   Se eliminaron filas duplicadas en todos los conjuntos de datos.
-    *   Se convirtieron las columnas de fecha al formato `datetime` para facilitar su manejo y se creó una columna `month` para análisis mensual.
+1.  **Description and Preparation of Data:**
+    *   An initial exploration of each DataFrame was conducted to evaluate its structure, data types, and missing values.
+    *   Column names were corrected for consistency.
+    *   Missing values (`NaN`) were handled, filling them according to context (e.g., `churn_date` with 'active').
+    *   Duplicate rows were removed from all datasets.
+    *   Date columns were converted to `datetime` format for easier handling, and a `month` column was created for monthly analysis.
 
-2.  **Agregación de Datos por Usuario:**
-    *   Se calcularon métricas mensuales por usuario: número de llamadas, minutos totales hablados, número de mensajes y total de MB usados.
-    *   Se fusionaron todos los datos de consumo con la información del usuario y las tarifas en un único DataFrame (`datos_usuarios`) para facilitar el análisis.
+2.  **Aggregation of Data by User:**
+    *   Monthly metrics per user were calculated: number of calls, total minutes spoken, number of messages, and total MB used.
+    *   All consumption data was merged with user information and tariffs into a single DataFrame (`user_data`) to facilitate analysis.
 
-3.  **Cálculo de Ingresos Mensuales:**
-    *   Se implementó la lógica de facturación de Megaline, que redondea la duración de las llamadas hacia arriba (por minuto) y el uso de internet hacia arriba (por GB).
-    *   Se calculó el ingreso mensual para cada usuario sumando la cuota fija del plan y los cargos por exceder los límites de minutos, mensajes y datos.
+3.  **Calculation of Monthly Revenue:**
+    *   Megaline's billing logic was implemented, which rounds call duration up (by minute) and internet usage up (by GB).
+    *   Monthly revenue for each user was calculated by adding the fixed plan fee and charges for exceeding limits on minutes, messages, and data.
 
-4.  **Estudio del Comportamiento del Usuario:**
-    *   Se analizó y visualizó el consumo mensual promedio de minutos, mensajes y GB de datos para ambos planes a lo largo del año.
-    *   Se compararon las distribuciones de consumo mediante histogramas y diagramas de caja, y se calcularon estadísticas descriptivas (media, varianza).
+4.  **Study of User Behavior:**
+    *   Average monthly consumption of minutes, messages, and GB of data for both plans was analyzed and visualized throughout the year.
+    *   Consumption distributions were compared using histograms and box plots, and descriptive statistics (mean, variance) were calculated.
 
-5.  **Análisis de Ingresos:**
-    *   Se compararon los ingresos mensuales generados por los usuarios de cada plan, tanto en promedios como en su distribución general.
-    *   Se utilizaron diagramas de caja para visualizar la dispersión y los valores atípicos en los ingresos de cada plan.
+5.  **Revenue Analysis:**
+    *   Monthly revenue generated by users of each plan was compared, both in averages and in their general distribution.
+    *   Box plots were used to visualize dispersion and outliers in the revenue for each plan.
 
-6.  **Prueba de Hipótesis Estadísticas:**
-    *   **Hipótesis 1:** Se utilizó una prueba t de Student para determinar si existía una diferencia significativa en el ingreso promedio entre los usuarios de los planes "Ultimate" y "Surf". La prueba confirmó que la diferencia es estadísticamente significativa.
-    *   **Hipótesis 2:** Se realizó otra prueba t de Student para comparar el ingreso promedio de los usuarios del área NY-NJ contra el de otras regiones, encontrando también una diferencia significativa.
+6.  **Statistical Hypothesis Testing:**
+    *   **Hypothesis 1:** A Student's t-test was used to determine if there was a significant difference in the average revenue between users of the "Ultimate" and "Surf" plans. The test confirmed that the difference is statistically significant.
+    *   **Hypothesis 2:** Another Student's t-test was performed to compare the average revenue of users in the NY-NJ area against other regions, also finding a significant difference.
 
-## Resultados y Conclusiones
+## Results and Conclusions
 
-*   **Comportamiento de Uso:** Aunque los promedios de consumo (minutos, mensajes, datos) son similares entre ambos planes, los usuarios de "Surf" presentan una **mayor variabilidad** y casos de consumo extremo, a diferencia de los usuarios de "Ultimate" que tienen un patrón de uso más estable.
-*   **Rentabilidad de los Planes:** Se confirmó estadísticamente que los usuarios del plan **"Ultimate" generan un ingreso promedio significativamente mayor** para la empresa. Este resultado es clave para la estrategia comercial.
-*   **Estrategia Recomendada:** Incentivar a los usuarios del plan "Surf", especialmente aquellos con patrones de alto consumo, a migrar al plan "Ultimate" podría ser una táctica efectiva para aumentar los ingresos totales de Megaline.
+*   **Usage Behavior:** Although average consumption (minutes, messages, data) is similar between both plans, "Surf" users exhibit **greater variability** and cases of extreme consumption, unlike "Ultimate" users, who have a more stable usage pattern.
+*   **Profitability of the Plans:** It was statistically confirmed that users of the **"Ultimate" plan generate significantly higher average revenue** for the company. This result is key to the commercial strategy.
+*   **Recommended Strategy:** Encouraging "Surf" plan users, especially those with high consumption patterns, to migrate to the "Ultimate" plan could be an effective tactic to increase Megaline's total revenue.
 
-##  Cómo Ejecutar el Proyecto
+## How to Run the Project
 
-Clona este repositorio :
-(https://github.com/ferchi4/Proyecto_spring_5)
+Clone this repository:
+
+**How to Run the Project**
+
+1.  Clone this repository to your local machine.
+    ```bash
+    git clone (https://github.com/ferchi4/Proyecto_spring_5)
+    ```
+    *(Note: Ensure you replace the URL with your actual repository URL).*
+
+2.  Ensure you have the necessary dependencies installed:
+    ```bash
+    pip install pandas numpy matplotlib seaborn scipy jupyter
+    ```
+
+3.  Place the CSV files (`megaline_calls.csv, megaline_internet.csv, megaline_messages.csv, megaline_plans.csv megaline_users.csv`) in the same directory as the notebook.
+
+4.  Open and run the `proyecto5.ipynb` file in Jupyter Notebook.
+    ```bash
+    jupyter notebook proyecto5.ipynb
+    ```
